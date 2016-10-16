@@ -47,13 +47,23 @@
 					document.getElementById("input").setSelectionRange(start+"\t".length, start+"\t".length);
 				}
 			}
+			var re = /(%NB)(\w+)/;
+			str = "<li id=\"%NBabc\"> abc";
+			newStr = str.replace(re, "\#$2");
+			console.log(newStr);
 			function showRequest(str){
 					var ajRequest = generateRequest()
 					ajRequest.onreadystatechange = function(){
 						if (this.readyState == 4 && this.status == 200){
-							document.getElementById('output').innerHTML = this.responseText					
+							res = this.responseText;
+							console.log(res)
+							res = res.replace(re, "\#$2")	
+							console.log(res);
+							document.getElementById('output').innerHTML = res					
 						}
 					};
+					str = str.replace("\#", "%NB");
+					console.log(str);
 					ajRequest.open("GET", "proc.php?q="+str, true);
 					ajRequest.send();
 				}
