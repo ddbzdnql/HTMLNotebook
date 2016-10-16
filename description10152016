@@ -1,0 +1,7 @@
+Open the html file and start typing in html syntax, on enter key pressed the result of treating the input as html file
+will appear in the right window.
+For better typing, the usage of <tag> can be replaced with **tag**.
+
+Current bug: the tab inside <pre></pre> tags will not show up, looking to fix it.
+
+Further development pursuit: able to pull file from destined folders and vice versa: write the input as file.
