@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>AjaxTest_Client</title>
+		<style>
+			.right {
+				position: absolute;
+				right: -5px;
+				width: 600px;
+				min-height: 200px;
+				border: 5px solid #123456;
+				font-size: 15px;
+				padding: 15px;
+			}
+			.text {
+				width: 600px;
+				height: 700px;
+				tab-size: 18px;
+				font-family: "Courier New";
+				font-size: 12px;
+				font-style: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id = "output" class = "right">Output goes here</div>
+		<p>
+		<br /><textarea class = "text" width = "150" height = "200" id = 'input'></textarea>
+		</p>
+		<script>
+			document.getElementById('input').onkeyup = function(event){
+				var x = event.which || event.keyCode;
+				console.log(x)
+				if (x == 13){
+					var inp = document.getElementById('input').value
+					console.log(inp)
+					showRequest(inp)
+				}
+			}
+			document.getElementById('input').onkeydown = function(event){
+				var x = event.which || event.keyCode;
+				if (x == 9){
+					event.preventDefault();
+					var start = this.selectionStart;
+					var end = this.selectionEnd;
+					var prev = this.value;
+					document.getElementById("input").value = (prev.substring(0,start) + "\t" + prev.substring(end));
+					document.getElementById("input").setSelectionRange(start+"\t".length, start+"\t".length);
+				}
+			}
+			function showRequest(str){
+					var ajRequest = generateRequest()
+					ajRequest.onreadystatechange = function(){
+						if (this.readyState == 4 && this.status == 200){
+							document.getElementById('output').innerHTML = this.responseText					
+						}
+					};
+					ajRequest.open("GET", "proc.php?q="+str, true);
+					ajRequest.send();
+				}
+			function generateRequest(){
+				var toRet
+				try{
+					toRet = new XMLHttpRequest()
+				}
+				catch(e1){
+					try{
+						toRet = new ActiveXObject("Msxm12.XMLHTTP")
+					}
+					catch(e2){
+						try{
+							toRet = new ActiveXObject("Microsoft.XMLHTTP")
+						}
+						catch(e3){
+							toRet = false
+						}
+					}
+				}
+				return toRet
+			}
+		</script>
+	</body>
+</html>
